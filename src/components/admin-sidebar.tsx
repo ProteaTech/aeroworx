@@ -40,8 +40,8 @@ const getNavigationItems = (userRole?: string) => {
       icon: Home,
     },
     {
-      title: 'partners',
-      url: '/admin/parners',
+      title: 'Partners Groups',
+      url: '/admin/partners',
       icon: Building2,
     },
     {
@@ -55,6 +55,21 @@ const getNavigationItems = (userRole?: string) => {
       icon: BarChart3,
     },
     {
+      title: 'Users',
+      url: '/admin/users',
+      icon: UserPlus,
+    },
+    {
+      title: 'Incidents',
+      url: '/admin/incidents',
+      icon: BarChart3,
+    },
+    {
+      title: 'Billing',
+      url: '/admin/billing',
+      icon: CreditCard,
+    },
+    {
       title: 'Settings',
       url: '/admin/settings',
       icon: Settings,
@@ -63,24 +78,7 @@ const getNavigationItems = (userRole?: string) => {
 
   // Super admin gets additional items
   if (userRole === 'superAdmin') {
-    return [
-      ...baseItems,
-      {
-        title: 'Partner Groups',
-        url: '/dashboard/partners',
-        icon: Building2,
-      },
-      {
-        title: 'Global Analytics',
-        url: '/dashboard/global-analytics',
-        icon: Globe,
-      },
-      {
-        title: 'Billing',
-        url: '/dashboard/billing',
-        icon: CreditCard,
-      },
-    ]
+    return [...baseItems]
   }
 
   return baseItems

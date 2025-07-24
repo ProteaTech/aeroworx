@@ -1,0 +1,25 @@
+# Ignore the build output directory
+.next
+
+# Ignore the node_modules directory where dependencies are installed
+node_modules
+
+# Ignore artifacts
+coverage 
+dist 
+
+# Ignore log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# pnpm lock
+pnpm-lock.yaml
+

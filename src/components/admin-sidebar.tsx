@@ -8,7 +8,6 @@ import {
   Home,
   Settings,
   UserPlus,
-  Globe,
   Shield,
   LogOut,
 } from 'lucide-react'

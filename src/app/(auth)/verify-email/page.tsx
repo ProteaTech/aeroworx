@@ -1,14 +1,23 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, Mail, CheckCircle, ArrowLeft } from "lucide-react"
-import { sendEmailVerification } from "firebase/auth"
-import { useAuth } from "@/contexts/auth-context"
-import { toast } from "sonner"
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Loader2, Mail, CheckCircle, ArrowLeft } from 'lucide-react'
+import { sendEmailVerification } from 'firebase/auth'
+import { useAuth } from '@/contexts/auth-context'
+import { toast } from 'sonner'
+import Image from 'next/image'
+import logo from '@/public/logo.png'
 
 export default function VerifyEmailPage() {
   const [loading, setLoading] = useState(false)
@@ -22,9 +31,10 @@ export default function VerifyEmailPage() {
     try {
       await sendEmailVerification(user)
       setSent(true)
-      toast.success("Verification email sent!")
+      toast.success('Verification email sent!')
     } catch (error: any) {
-      toast.error("Failed to send verification email")
+      console.error('Failed to send verification email:', error)
+      toast.error('Failed to send verification email')
     } finally {
       setLoading(false)
     }
@@ -40,24 +50,31 @@ export default function VerifyEmailPage() {
   return (
     <Card className="w-full">
       <CardHeader className="space-y-1">
-        <div className="flex items-center justify-center mb-4">
-          <img src="/logo.png" alt="AeroWorx" className="h-12 w-auto" />
+        <div className="mb-4 flex items-center justify-center">
+          <Image src={logo} alt="AeroWorx" className="h-12 w-auto" />
         </div>
-        <CardTitle className="text-2xl text-center">Verify your email</CardTitle>
-        <CardDescription className="text-center">We've sent a verification link to your email address</CardDescription>
+        <CardTitle className="text-center text-2xl">
+          Verify your email
+        </CardTitle>
+        <CardDescription className="text-center">
+          We&apos;ve sent a verification link to your email address
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {user?.emailVerified ? (
           <Alert>
             <CheckCircle className="h-4 w-4" />
-            <AlertDescription>Your email has been verified! You can now access your account.</AlertDescription>
+            <AlertDescription>
+              Your email has been verified! You can now access your account.
+            </AlertDescription>
           </Alert>
         ) : (
           <Alert>
             <Mail className="h-4 w-4" />
             <AlertDescription>
-              Please check your email and click the verification link to activate your account. If you don't see it,
-              check your spam folder.
+              Please check your email and click the verification link to
+              activate your account. If you don&apos;t see it, check your spam
+              folder.
             </AlertDescription>
           </Alert>
         )}
@@ -65,7 +82,9 @@ export default function VerifyEmailPage() {
         {sent && (
           <Alert>
             <CheckCircle className="h-4 w-4" />
-            <AlertDescription>Verification email sent successfully!</AlertDescription>
+            <AlertDescription>
+              Verification email sent successfully!
+            </AlertDescription>
           </Alert>
         )}
       </CardContent>

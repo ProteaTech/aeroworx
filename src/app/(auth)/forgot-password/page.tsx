@@ -1,37 +1,46 @@
-"use client"
+'use client'
 
-import type React from "react"
+import type React from 'react'
 
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, Mail, ArrowLeft } from "lucide-react"
-import { sendPasswordResetEmail } from "firebase/auth"
-import { auth } from "@/lib/firebase/config"
-import { toast } from "sonner"
+import { useState } from 'react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Loader2, Mail, ArrowLeft } from 'lucide-react'
+import { sendPasswordResetEmail } from 'firebase/auth'
+import { auth } from '@/lib/firebase/config'
+import { toast } from 'sonner'
+import Image from 'next/image'
+import logo from '@/public/logo.png'
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
-  const [error, setError] = useState("")
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError("")
+    setError('')
 
     try {
       await sendPasswordResetEmail(auth, email)
       setSent(true)
-      toast.success("Password reset email sent!")
+      toast.success('Password reset email sent!')
     } catch (error: any) {
-      setError(error.message || "Failed to send reset email")
-      toast.error("Failed to send reset email")
+      setError(error.message || 'Failed to send reset email')
+      toast.error('Failed to send reset email')
     } finally {
       setLoading(false)
     }
@@ -41,17 +50,22 @@ export default function ForgotPasswordPage() {
     return (
       <Card className="w-full">
         <CardHeader className="space-y-1">
-          <div className="flex items-center justify-center mb-4">
-            <img src="/logo.png" alt="AeroWorx" className="h-12 w-auto" />
+          <div className="mb-4 flex items-center justify-center">
+            <Image src="/logo.png" alt="AeroWorx" className="h-12 w-auto" />
           </div>
-          <CardTitle className="text-2xl text-center">Check your email</CardTitle>
-          <CardDescription className="text-center">We've sent a password reset link to {email}</CardDescription>
+          <CardTitle className="text-center text-2xl">
+            Check your email
+          </CardTitle>
+          <CardDescription className="text-center">
+            We&apos;ve sent a password reset link to {email}
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Alert>
             <Mail className="h-4 w-4" />
             <AlertDescription>
-              Click the link in the email to reset your password. If you don't see it, check your spam folder.
+              Click the link in the email to reset your password. If you
+              don&apos;t see it, check your spam folder.
             </AlertDescription>
           </Alert>
         </CardContent>
@@ -70,12 +84,12 @@ export default function ForgotPasswordPage() {
   return (
     <Card className="w-full">
       <CardHeader className="space-y-1">
-        <div className="flex items-center justify-center mb-4">
-          <img src="/logo.png" alt="AeroWorx" className="h-12 w-auto" />
+        <div className="mb-4 flex items-center justify-center">
+          <Image src={logo} alt="AeroWorx" className="h-12 w-auto" />
         </div>
-        <CardTitle className="text-2xl text-center">Reset password</CardTitle>
+        <CardTitle className="text-center text-2xl">Reset password</CardTitle>
         <CardDescription className="text-center">
-          Enter your email address and we'll send you a reset link
+          Enter your email address and we&apos;ll send you a reset link
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
@@ -88,7 +102,7 @@ export default function ForgotPasswordPage() {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Mail className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
               <Input
                 id="email"
                 type="email"

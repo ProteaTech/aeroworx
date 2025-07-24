@@ -1,29 +1,38 @@
-"use client"
+'use client'
 
-import type React from "react"
+import type React from 'react'
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, Mail, Lock, User } from "lucide-react"
-import { signUp } from "@/lib/firebase/auth"
-import { toast } from "sonner"
+import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Loader2, Mail, Lock, User } from 'lucide-react'
+import { signUp } from '@/lib/firebase/auth'
+import { toast } from 'sonner'
+import Image from 'next/image'
+import logo from '@/public/logo.png'
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   })
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+  const [error, setError] = useState('')
   const router = useRouter()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,27 +45,29 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError("")
+    setError('')
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match")
+      setError('Passwords do not match')
       setLoading(false)
       return
     }
 
     if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters")
+      setError('Password must be at least 6 characters')
       setLoading(false)
       return
     }
 
     try {
       await signUp(formData.email, formData.password)
-      toast.success("Account created successfully! Please check your email to verify your account.")
-      router.push("/verify-email")
+      toast.success(
+        'Account created successfully! Please check your email to verify your account.'
+      )
+      router.push('/verify-email')
     } catch (error: any) {
-      setError(error.message || "Failed to create account")
-      toast.error("Failed to create account")
+      setError(error.message || 'Failed to create account')
+      toast.error('Failed to create account')
     } finally {
       setLoading(false)
     }
@@ -65,11 +76,13 @@ export default function RegisterPage() {
   return (
     <Card className="w-full">
       <CardHeader className="space-y-1">
-        <div className="flex items-center justify-center mb-4">
-          <img src="/logo.png" alt="AeroWorx" className="h-12 w-auto" />
+        <div className="mb-4 flex items-center justify-center">
+          <Image src={logo} alt="AeroWorx" className="h-12 w-auto" />
         </div>
-        <CardTitle className="text-2xl text-center">Create account</CardTitle>
-        <CardDescription className="text-center">Sign up for your AeroWorx account</CardDescription>
+        <CardTitle className="text-center text-2xl">Create account</CardTitle>
+        <CardDescription className="text-center">
+          Sign up for your AeroWorx account
+        </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
@@ -82,7 +95,7 @@ export default function RegisterPage() {
             <div className="space-y-2">
               <Label htmlFor="firstName">First Name</Label>
               <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <User className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
                 <Input
                   id="firstName"
                   name="firstName"
@@ -111,7 +124,7 @@ export default function RegisterPage() {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Mail className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
               <Input
                 id="email"
                 name="email"
@@ -127,7 +140,7 @@ export default function RegisterPage() {
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Lock className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
               <Input
                 id="password"
                 name="password"
@@ -143,7 +156,7 @@ export default function RegisterPage() {
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirm Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Lock className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
               <Input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -162,8 +175,8 @@ export default function RegisterPage() {
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Create Account
           </Button>
-          <p className="text-sm text-center text-muted-foreground">
-            Already have an account?{" "}
+          <p className="text-muted-foreground text-center text-sm">
+            Already have an account?{' '}
             <Link href="/login" className="text-primary hover:underline">
               Sign in
             </Link>

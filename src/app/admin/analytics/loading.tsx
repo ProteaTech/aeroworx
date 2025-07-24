@@ -1,11 +1,11 @@
-import { Skeleton } from "@/components/ui/skeleton"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Skeleton } from '@/components/ui/skeleton'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 
 export default function AnalyticsLoading() {
   return (
     <div className="space-y-6">
       <div>
-        <Skeleton className="h-8 w-32 mb-2" />
+        <Skeleton className="mb-2 h-8 w-32" />
         <Skeleton className="h-4 w-64" />
       </div>
 
@@ -18,7 +18,7 @@ export default function AnalyticsLoading() {
               <Skeleton className="h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <Skeleton className="h-8 w-16 mb-2" />
+              <Skeleton className="mb-2 h-8 w-16" />
               <Skeleton className="h-3 w-20" />
             </CardContent>
           </Card>
@@ -29,7 +29,7 @@ export default function AnalyticsLoading() {
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <Skeleton className="h-6 w-32 mb-2" />
+            <Skeleton className="mb-2 h-6 w-32" />
             <Skeleton className="h-4 w-48" />
           </CardHeader>
           <CardContent>
@@ -39,7 +39,7 @@ export default function AnalyticsLoading() {
 
         <Card>
           <CardHeader>
-            <Skeleton className="h-6 w-32 mb-2" />
+            <Skeleton className="mb-2 h-6 w-32" />
             <Skeleton className="h-4 w-48" />
           </CardHeader>
           <CardContent>
@@ -51,13 +51,16 @@ export default function AnalyticsLoading() {
       {/* Tables */}
       <Card>
         <CardHeader>
-          <Skeleton className="h-6 w-32 mb-2" />
+          <Skeleton className="mb-2 h-6 w-32" />
           <Skeleton className="h-4 w-48" />
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="flex items-center justify-between p-4 border rounded-lg">
+              <div
+                key={i}
+                className="flex items-center justify-between rounded-lg border p-4"
+              >
                 <div className="space-y-2">
                   <Skeleton className="h-4 w-32" />
                   <Skeleton className="h-3 w-24" />

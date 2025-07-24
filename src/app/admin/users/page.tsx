@@ -1,94 +1,117 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Users, UserCheck, UserX, Shield, Search, MoreHorizontal, Edit, Trash2, UserPlus } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useState } from 'react'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import {
+  Users,
+  UserCheck,
+  UserX,
+  Shield,
+  Search,
+  MoreHorizontal,
+  Edit,
+  Trash2,
+  UserPlus,
+} from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 // Mock admin users data
 const mockAdminUsers = [
   {
-    id: "admin1",
-    firstName: "John",
-    lastName: "Admin",
-    email: "john.admin@aeroworx.com",
-    role: "superAdmin",
+    id: 'admin1',
+    firstName: 'John',
+    lastName: 'Admin',
+    email: 'john.admin@aeroworx.com',
+    role: 'superAdmin',
     partnerGroupId: null,
     isActive: true,
-    lastLogin: "2024-01-15T10:30:00Z",
-    createdAt: "2024-01-01T00:00:00Z",
+    lastLogin: '2024-01-15T10:30:00Z',
+    createdAt: '2024-01-01T00:00:00Z',
   },
   {
-    id: "admin2",
-    firstName: "Sarah",
-    lastName: "Manager",
-    email: "sarah.manager@globalinsurance.com",
-    role: "partnerAdmin",
-    partnerGroupId: "pg1",
+    id: 'admin2',
+    firstName: 'Sarah',
+    lastName: 'Manager',
+    email: 'sarah.manager@globalinsurance.com',
+    role: 'partnerAdmin',
+    partnerGroupId: 'pg1',
     isActive: true,
-    lastLogin: "2024-01-14T15:45:00Z",
-    createdAt: "2024-01-05T00:00:00Z",
+    lastLogin: '2024-01-14T15:45:00Z',
+    createdAt: '2024-01-05T00:00:00Z',
   },
   {
-    id: "admin3",
-    firstName: "Mike",
-    lastName: "Coordinator",
-    email: "mike.coord@europeantravel.eu",
-    role: "admin",
-    partnerGroupId: "pg2",
+    id: 'admin3',
+    firstName: 'Mike',
+    lastName: 'Coordinator',
+    email: 'mike.coord@europeantravel.eu',
+    role: 'admin',
+    partnerGroupId: 'pg2',
     isActive: true,
-    lastLogin: "2024-01-13T09:20:00Z",
-    createdAt: "2024-01-10T00:00:00Z",
+    lastLogin: '2024-01-13T09:20:00Z',
+    createdAt: '2024-01-10T00:00:00Z',
   },
   {
-    id: "admin4",
-    firstName: "Lisa",
-    lastName: "Support",
-    email: "lisa.support@apacoverage.com",
-    role: "admin",
-    partnerGroupId: "pg3",
+    id: 'admin4',
+    firstName: 'Lisa',
+    lastName: 'Support',
+    email: 'lisa.support@apacoverage.com',
+    role: 'admin',
+    partnerGroupId: 'pg3',
     isActive: false,
-    lastLogin: "2024-01-10T14:15:00Z",
-    createdAt: "2024-01-12T00:00:00Z",
+    lastLogin: '2024-01-10T14:15:00Z',
+    createdAt: '2024-01-12T00:00:00Z',
   },
 ]
 
 export default function UsersPage() {
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
   const users = mockAdminUsers
 
   const filteredUsers = users.filter(
     (user) =>
-      `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      `${user.firstName} ${user.lastName}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.role.toLowerCase().includes(searchTerm.toLowerCase()),
+      user.role.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   // Calculate stats
   const totalUsers = users.length
   const activeUsers = users.filter((u) => u.isActive).length
   const inactiveUsers = users.filter((u) => !u.isActive).length
-  const superAdmins = users.filter((u) => u.role === "superAdmin").length
+  const superAdmins = users.filter((u) => u.role === 'superAdmin').length
 
   const getRoleBadgeVariant = (role: string) => {
     switch (role) {
-      case "superAdmin":
-        return "default"
-      case "partnerAdmin":
-        return "secondary"
+      case 'superAdmin':
+        return 'default'
+      case 'partnerAdmin':
+        return 'secondary'
       default:
-        return "outline"
+        return 'outline'
     }
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
     })
   }
 
@@ -96,7 +119,9 @@ export default function UsersPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-        <p className="text-muted-foreground">Manage admin users and their permissions</p>
+        <p className="text-muted-foreground">
+          Manage admin users and their permissions
+        </p>
       </div>
 
       {/* Stats Cards */}
@@ -104,46 +129,53 @@ export default function UsersPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalUsers}</div>
-            <p className="text-xs text-muted-foreground">Admin and partner users</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-            <UserCheck className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{activeUsers}</div>
-            <p className="text-xs text-muted-foreground">
-              <span className="text-green-600">{Math.round((activeUsers / totalUsers) * 100)}%</span> of total
+            <p className="text-muted-foreground text-xs">
+              Admin and partner users
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Inactive Users</CardTitle>
-            <UserX className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+            <UserCheck className="text-muted-foreground h-4 w-4" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{activeUsers}</div>
+            <p className="text-muted-foreground text-xs">
+              <span className="text-green-600">
+                {Math.round((activeUsers / totalUsers) * 100)}%
+              </span>{' '}
+              of total
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Inactive Users
+            </CardTitle>
+            <UserX className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{inactiveUsers}</div>
-            <p className="text-xs text-muted-foreground">Require attention</p>
+            <p className="text-muted-foreground text-xs">Require attention</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Super Admins</CardTitle>
-            <Shield className="h-4 w-4 text-muted-foreground" />
+            <Shield className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{superAdmins}</div>
-            <p className="text-xs text-muted-foreground">Full system access</p>
+            <p className="text-muted-foreground text-xs">Full system access</p>
           </CardContent>
         </Card>
       </div>
@@ -154,7 +186,9 @@ export default function UsersPage() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle>Admin Users</CardTitle>
-              <CardDescription>Manage system administrators and partner admins</CardDescription>
+              <CardDescription>
+                Manage system administrators and partner admins
+              </CardDescription>
             </div>
             <Button>
               <UserPlus className="mr-2 h-4 w-4" />
@@ -166,7 +200,7 @@ export default function UsersPage() {
           <div className="space-y-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Search className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
               <Input
                 placeholder="Search users..."
                 value={searchTerm}
@@ -180,33 +214,39 @@ export default function UsersPage() {
               {filteredUsers.map((user) => (
                 <div
                   key={user.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                  className="hover:bg-muted/50 flex items-center justify-between rounded-lg border p-4 transition-colors"
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Users className="h-5 w-5 text-primary" />
+                    <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-full">
+                      <Users className="text-primary h-5 w-5" />
                     </div>
                     <div>
                       <h3 className="font-semibold">
                         {user.firstName} {user.lastName}
                       </h3>
-                      <p className="text-sm text-muted-foreground">{user.email}</p>
-                      <p className="text-xs text-muted-foreground">Last login: {formatDate(user.lastLogin)}</p>
+                      <p className="text-muted-foreground text-sm">
+                        {user.email}
+                      </p>
+                      <p className="text-muted-foreground text-xs">
+                        Last login: {formatDate(user.lastLogin)}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-4">
-                    <div className="text-right space-y-1">
+                    <div className="space-y-1 text-right">
                       <Badge variant={getRoleBadgeVariant(user.role)}>
-                        {user.role === "superAdmin"
-                          ? "Super Admin"
-                          : user.role === "partnerAdmin"
-                            ? "Partner Admin"
-                            : "Admin"}
+                        {user.role === 'superAdmin'
+                          ? 'Super Admin'
+                          : user.role === 'partnerAdmin'
+                            ? 'Partner Admin'
+                            : 'Admin'}
                       </Badge>
                       <div>
-                        <Badge variant={user.isActive ? "default" : "secondary"}>
-                          {user.isActive ? "Active" : "Inactive"}
+                        <Badge
+                          variant={user.isActive ? 'default' : 'secondary'}
+                        >
+                          {user.isActive ? 'Active' : 'Inactive'}
                         </Badge>
                       </div>
                     </div>

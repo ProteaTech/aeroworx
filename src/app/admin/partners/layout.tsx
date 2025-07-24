@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import type React from "react"
+import type React from 'react'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,7 +8,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from '@/components/ui/breadcrumb'
 
 export default function PartnersLayout({
   children,
@@ -30,8 +30,10 @@ export default function PartnersLayout({
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-          <h1 className="text-3xl font-bold tracking-tight mt-2">Partners</h1>
-          <p className="text-muted-foreground">Manage partner organizations and their settings</p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight">Partners</h1>
+          <p className="text-muted-foreground">
+            Manage partner organizations and their settings
+          </p>
         </div>
       </div>
       {children}

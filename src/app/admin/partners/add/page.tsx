@@ -1,33 +1,45 @@
-"use client"
+'use client'
 
-import type React from "react"
+import type React from 'react'
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { ArrowLeft, Save } from "lucide-react"
-import { toast } from "sonner"
-import Link from "next/link"
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Separator } from '@/components/ui/separator'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import { ArrowLeft, Save } from 'lucide-react'
+import { toast } from 'sonner'
+import Link from 'next/link'
 
 export default function AddPartnerPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
-    name: "",
-    contactEmail: "",
-    contactPhone: "",
-    address: "",
+    name: '',
+    contactEmail: '',
+    contactPhone: '',
+    address: '',
     basePlanPrice: 20,
     silverPlanPrice: 25,
     goldPlanPrice: 30,
-    defaultCurrency: "USD",
-    timezone: "America/New_York",
+    defaultCurrency: 'USD',
+    timezone: 'America/New_York',
     allowSelfRegistration: false,
     isActive: true,
   })
@@ -47,10 +59,10 @@ export default function AddPartnerPage() {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      toast.success("Partner organization created successfully!")
-      router.push("/admin/partners")
+      toast.success('Partner organization created successfully!')
+      router.push('/admin/partners')
     } catch (error) {
-      toast.error("Failed to create partner organization")
+      toast.error('Failed to create partner organization')
     } finally {
       setLoading(false)
     }
@@ -66,7 +78,9 @@ export default function AddPartnerPage() {
         </Link>
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Add New Partner</h1>
-          <p className="text-muted-foreground">Create a new partner organization with custom settings</p>
+          <p className="text-muted-foreground">
+            Create a new partner organization with custom settings
+          </p>
         </div>
       </div>
 
@@ -76,7 +90,9 @@ export default function AddPartnerPage() {
           <Card>
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
-              <CardDescription>Enter the basic details for the partner organization</CardDescription>
+              <CardDescription>
+                Enter the basic details for the partner organization
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -84,7 +100,7 @@ export default function AddPartnerPage() {
                 <Input
                   id="name"
                   value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
                   placeholder="Enter organization name"
                   required
                 />
@@ -96,7 +112,9 @@ export default function AddPartnerPage() {
                   id="contactEmail"
                   type="email"
                   value={formData.contactEmail}
-                  onChange={(e) => handleInputChange("contactEmail", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange('contactEmail', e.target.value)
+                  }
                   placeholder="contact@organization.com"
                   required
                 />
@@ -107,7 +125,9 @@ export default function AddPartnerPage() {
                 <Input
                   id="contactPhone"
                   value={formData.contactPhone}
-                  onChange={(e) => handleInputChange("contactPhone", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange('contactPhone', e.target.value)
+                  }
                   placeholder="+1-555-0123"
                 />
               </div>
@@ -117,7 +137,7 @@ export default function AddPartnerPage() {
                 <Input
                   id="address"
                   value={formData.address}
-                  onChange={(e) => handleInputChange("address", e.target.value)}
+                  onChange={(e) => handleInputChange('address', e.target.value)}
                   placeholder="Enter full address"
                 />
               </div>
@@ -128,7 +148,9 @@ export default function AddPartnerPage() {
           <Card>
             <CardHeader>
               <CardTitle>Plan Settings</CardTitle>
-              <CardDescription>Configure pricing and operational settings</CardDescription>
+              <CardDescription>
+                Configure pricing and operational settings
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-3 gap-4">
@@ -138,7 +160,9 @@ export default function AddPartnerPage() {
                     id="basePlanPrice"
                     type="number"
                     value={formData.basePlanPrice}
-                    onChange={(e) => handleInputChange("basePlanPrice", Number(e.target.value))}
+                    onChange={(e) =>
+                      handleInputChange('basePlanPrice', Number(e.target.value))
+                    }
                     min="0"
                     step="0.01"
                   />
@@ -149,7 +173,12 @@ export default function AddPartnerPage() {
                     id="silverPlanPrice"
                     type="number"
                     value={formData.silverPlanPrice}
-                    onChange={(e) => handleInputChange("silverPlanPrice", Number(e.target.value))}
+                    onChange={(e) =>
+                      handleInputChange(
+                        'silverPlanPrice',
+                        Number(e.target.value)
+                      )
+                    }
                     min="0"
                     step="0.01"
                   />
@@ -160,7 +189,9 @@ export default function AddPartnerPage() {
                     id="goldPlanPrice"
                     type="number"
                     value={formData.goldPlanPrice}
-                    onChange={(e) => handleInputChange("goldPlanPrice", Number(e.target.value))}
+                    onChange={(e) =>
+                      handleInputChange('goldPlanPrice', Number(e.target.value))
+                    }
                     min="0"
                     step="0.01"
                   />
@@ -171,7 +202,9 @@ export default function AddPartnerPage() {
                 <Label htmlFor="defaultCurrency">Default Currency</Label>
                 <Select
                   value={formData.defaultCurrency}
-                  onValueChange={(value) => handleInputChange("defaultCurrency", value)}
+                  onValueChange={(value) =>
+                    handleInputChange('defaultCurrency', value)
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -187,15 +220,28 @@ export default function AddPartnerPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="timezone">Timezone</Label>
-                <Select value={formData.timezone} onValueChange={(value) => handleInputChange("timezone", value)}>
+                <Select
+                  value={formData.timezone}
+                  onValueChange={(value) =>
+                    handleInputChange('timezone', value)
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="America/New_York">Eastern Time</SelectItem>
-                    <SelectItem value="America/Chicago">Central Time</SelectItem>
-                    <SelectItem value="America/Denver">Mountain Time</SelectItem>
-                    <SelectItem value="America/Los_Angeles">Pacific Time</SelectItem>
+                    <SelectItem value="America/New_York">
+                      Eastern Time
+                    </SelectItem>
+                    <SelectItem value="America/Chicago">
+                      Central Time
+                    </SelectItem>
+                    <SelectItem value="America/Denver">
+                      Mountain Time
+                    </SelectItem>
+                    <SelectItem value="America/Los_Angeles">
+                      Pacific Time
+                    </SelectItem>
                     <SelectItem value="Europe/London">London</SelectItem>
                     <SelectItem value="Europe/Paris">Paris</SelectItem>
                     <SelectItem value="Asia/Singapore">Singapore</SelectItem>
@@ -209,22 +255,30 @@ export default function AddPartnerPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Allow Self Registration</Label>
-                  <p className="text-sm text-muted-foreground">Allow members to register themselves</p>
+                  <p className="text-muted-foreground text-sm">
+                    Allow members to register themselves
+                  </p>
                 </div>
                 <Switch
                   checked={formData.allowSelfRegistration}
-                  onCheckedChange={(checked) => handleInputChange("allowSelfRegistration", checked)}
+                  onCheckedChange={(checked) =>
+                    handleInputChange('allowSelfRegistration', checked)
+                  }
                 />
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Active Status</Label>
-                  <p className="text-sm text-muted-foreground">Enable this partner organization</p>
+                  <p className="text-muted-foreground text-sm">
+                    Enable this partner organization
+                  </p>
                 </div>
                 <Switch
                   checked={formData.isActive}
-                  onCheckedChange={(checked) => handleInputChange("isActive", checked)}
+                  onCheckedChange={(checked) =>
+                    handleInputChange('isActive', checked)
+                  }
                 />
               </div>
             </CardContent>

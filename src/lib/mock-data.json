@@ -127,9 +127,24 @@
         { "region": "Other", "count": 124, "percentage": 9.9 }
       ],
       "membersByPlan": [
-        { "plan": "Base Plan", "count": 498, "revenue": 9960, "percentage": 39.9 },
-        { "plan": "Silver Plan", "count": 436, "revenue": 10900, "percentage": 35.0 },
-        { "plan": "Gold Plan", "count": 313, "revenue": 9390, "percentage": 25.1 }
+        {
+          "plan": "Base Plan",
+          "count": 498,
+          "revenue": 9960,
+          "percentage": 39.9
+        },
+        {
+          "plan": "Silver Plan",
+          "count": 436,
+          "revenue": 10900,
+          "percentage": 35.0
+        },
+        {
+          "plan": "Gold Plan",
+          "count": 313,
+          "revenue": 9390,
+          "percentage": 25.1
+        }
       ],
       "revenueByMonth": [
         { "month": "Jan", "revenue": 25400, "members": 1016 },

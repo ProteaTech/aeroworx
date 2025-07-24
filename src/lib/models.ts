@@ -1,4 +1,4 @@
-import type { Timestamp } from "firebase/firestore"
+import type { Timestamp } from 'firebase/firestore'
 
 /** Admin user */
 export interface User {
@@ -6,7 +6,7 @@ export interface User {
   firstName: string
   lastName: string
   email: string
-  role?: "admin" | "superAdmin" | "partnerAdmin"
+  role?: 'admin' | 'superAdmin' | 'partnerAdmin'
   partnerGroupId?: string // Only for partnerAdmin users
   createdAt?: Timestamp
   lastLogin?: Timestamp
@@ -47,7 +47,7 @@ export interface Member {
   startDate: Date
   endDate: Date
   daysOfTravel: number
-  coverageType: "Base Plan" | "Silver Plan" | "Gold Plan"
+  coverageType: 'Base Plan' | 'Silver Plan' | 'Gold Plan'
   monthlyRate: number
   totalCost: number
   isActive: boolean
@@ -74,7 +74,7 @@ export interface RegionData {
 }
 
 export interface PlanData {
-  plan: "Base Plan" | "Silver Plan" | "Gold Plan"
+  plan: 'Base Plan' | 'Silver Plan' | 'Gold Plan'
   count: number
   revenue: number
   percentage: number
@@ -100,7 +100,7 @@ export interface BillingData {
   forecastedRevenue: number
   lastBillingDate: Date
   nextBillingDate: Date
-  status: "current" | "overdue" | "pending"
+  status: 'current' | 'overdue' | 'pending'
 }
 
 /** Post and related interfaces (keeping existing) */
@@ -139,5 +139,5 @@ export interface CSVMemberData {
   destination: string
   startDate: string
   endDate: string
-  coverageType: "Base Plan" | "Silver Plan" | "Gold Plan"
+  coverageType: 'Base Plan' | 'Silver Plan' | 'Gold Plan'
 }

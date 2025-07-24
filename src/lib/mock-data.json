@@ -1,0 +1,175 @@
+{
+  "partnerGroups": [
+    {
+      "id": "pg1",
+      "name": "Global Insurance Corp",
+      "contactEmail": "admin@globalinsurance.com",
+      "contactPhone": "+1-555-0123",
+      "address": "123 Insurance Ave, New York, NY 10001",
+      "logoUrl": "/placeholder.svg?height=40&width=120",
+      "isActive": true,
+      "createdAt": "2024-01-15T00:00:00Z",
+      "adminIds": ["admin1"],
+      "settings": {
+        "basePlanPrice": 20,
+        "silverPlanPrice": 25,
+        "goldPlanPrice": 30,
+        "defaultCurrency": "USD",
+        "timezone": "America/New_York",
+        "allowSelfRegistration": false
+      }
+    },
+    {
+      "id": "pg2",
+      "name": "European Travel Shield",
+      "contactEmail": "contact@europeantravel.eu",
+      "contactPhone": "+44-20-7123-4567",
+      "address": "456 Travel Street, London, UK",
+      "logoUrl": "/placeholder.svg?height=40&width=120",
+      "isActive": true,
+      "createdAt": "2024-02-01T00:00:00Z",
+      "adminIds": ["admin2"],
+      "settings": {
+        "basePlanPrice": 18,
+        "silverPlanPrice": 23,
+        "goldPlanPrice": 28,
+        "defaultCurrency": "EUR",
+        "timezone": "Europe/London",
+        "allowSelfRegistration": true
+      }
+    },
+    {
+      "id": "pg3",
+      "name": "Asia Pacific Coverage",
+      "contactEmail": "info@apacoverage.com",
+      "contactPhone": "+65-6123-4567",
+      "address": "789 Coverage Blvd, Singapore",
+      "logoUrl": "/placeholder.svg?height=40&width=120",
+      "isActive": true,
+      "createdAt": "2024-01-20T00:00:00Z",
+      "adminIds": ["admin3"],
+      "settings": {
+        "basePlanPrice": 22,
+        "silverPlanPrice": 27,
+        "goldPlanPrice": 32,
+        "defaultCurrency": "SGD",
+        "timezone": "Asia/Singapore",
+        "allowSelfRegistration": false
+      }
+    }
+  ],
+  "members": [
+    {
+      "id": "m1",
+      "partnerGroupId": "pg1",
+      "name": "John Smith",
+      "dateOfBirth": "1985-03-15",
+      "nationality": "American",
+      "countryOfResidence": "United States",
+      "destination": "Thailand",
+      "startDate": "2024-03-01",
+      "endDate": "2024-03-15",
+      "daysOfTravel": 14,
+      "coverageType": "Gold Plan",
+      "monthlyRate": 30,
+      "totalCost": 420,
+      "isActive": true,
+      "createdAt": "2024-02-15T00:00:00Z",
+      "updatedAt": "2024-02-15T00:00:00Z"
+    },
+    {
+      "id": "m2",
+      "partnerGroupId": "pg1",
+      "name": "Sarah Johnson",
+      "dateOfBirth": "1990-07-22",
+      "nationality": "American",
+      "countryOfResidence": "United States",
+      "destination": "Japan",
+      "startDate": "2024-04-10",
+      "endDate": "2024-04-24",
+      "daysOfTravel": 14,
+      "coverageType": "Silver Plan",
+      "monthlyRate": 25,
+      "totalCost": 350,
+      "isActive": true,
+      "createdAt": "2024-02-20T00:00:00Z",
+      "updatedAt": "2024-02-20T00:00:00Z"
+    },
+    {
+      "id": "m3",
+      "partnerGroupId": "pg2",
+      "name": "Emma Wilson",
+      "dateOfBirth": "1988-11-08",
+      "nationality": "British",
+      "countryOfResidence": "United Kingdom",
+      "destination": "Morocco",
+      "startDate": "2024-05-01",
+      "endDate": "2024-05-21",
+      "daysOfTravel": 20,
+      "coverageType": "Base Plan",
+      "monthlyRate": 18,
+      "totalCost": 360,
+      "isActive": true,
+      "createdAt": "2024-03-01T00:00:00Z",
+      "updatedAt": "2024-03-01T00:00:00Z"
+    }
+  ],
+  "analytics": {
+    "global": {
+      "totalMembers": 1247,
+      "activeMembers": 1189,
+      "totalRevenue": 31175,
+      "monthlyRevenue": 28950,
+      "membersByRegion": [
+        { "region": "North America", "count": 456, "percentage": 36.6 },
+        { "region": "Europe", "count": 389, "percentage": 31.2 },
+        { "region": "Asia Pacific", "count": 278, "percentage": 22.3 },
+        { "region": "Other", "count": 124, "percentage": 9.9 }
+      ],
+      "membersByPlan": [
+        { "plan": "Base Plan", "count": 498, "revenue": 9960, "percentage": 39.9 },
+        { "plan": "Silver Plan", "count": 436, "revenue": 10900, "percentage": 35.0 },
+        { "plan": "Gold Plan", "count": 313, "revenue": 9390, "percentage": 25.1 }
+      ],
+      "revenueByMonth": [
+        { "month": "Jan", "revenue": 25400, "members": 1016 },
+        { "month": "Feb", "revenue": 27800, "members": 1112 },
+        { "month": "Mar", "revenue": 31175, "members": 1247 }
+      ],
+      "memberGrowth": [
+        { "month": "Jan", "newMembers": 89, "totalMembers": 1016 },
+        { "month": "Feb", "newMembers": 96, "totalMembers": 1112 },
+        { "month": "Mar", "newMembers": 135, "totalMembers": 1247 }
+      ]
+    }
+  },
+  "billing": [
+    {
+      "partnerGroupId": "pg1",
+      "partnerGroupName": "Global Insurance Corp",
+      "currentMembers": 456,
+      "forecastedRevenue": 11400,
+      "lastBillingDate": "2024-02-01",
+      "nextBillingDate": "2024-03-01",
+      "status": "current"
+    },
+    {
+      "partnerGroupId": "pg2",
+      "partnerGroupName": "European Travel Shield",
+      "currentMembers": 389,
+      "forecastedRevenue": 8947,
+      "lastBillingDate": "2024-02-01",
+      "nextBillingDate": "2024-03-01",
+      "status": "current"
+    },
+    {
+      "partnerGroupId": "pg3",
+      "partnerGroupName": "Asia Pacific Coverage",
+      "currentMembers": 278,
+      "forecastedRevenue": 7284,
+      "lastBillingDate": "2024-02-01",
+      "nextBillingDate": "2024-03-01",
+      "status": "pending"
+    }
+  ]
+}

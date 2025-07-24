@@ -1,5 +1,5 @@
 import type React from 'react'
-import type { Metadata} from 'next'
+import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Providers from './providers'
@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   title: 'AeroWorx',
   description: 'Emergency Evacuation Services',
 }
-
 
 export default function RootLayout({
   children,

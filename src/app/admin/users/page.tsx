@@ -28,37 +28,42 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import Image from 'next/image'
 
 // Mock admin users data
 const mockAdminUsers = [
   {
     id: 'admin1',
-    firstName: 'John',
-    lastName: 'Admin',
-    email: 'john.admin@aeroworx.com',
+    firstName: 'Graham',
+    lastName: 'Lambert',
+    email: 'graham@aeroworx.co',
     role: 'superAdmin',
     partnerGroupId: null,
     isActive: true,
     lastLogin: '2024-01-15T10:30:00Z',
     createdAt: '2024-01-01T00:00:00Z',
+    profilePhoto:
+      'https://aeroworx-1d7a9.kxcdn.com/wp-content/uploads/2022/08/graham-lambert.jpg',
   },
   {
     id: 'admin2',
-    firstName: 'Sarah',
-    lastName: 'Manager',
-    email: 'sarah.manager@globalinsurance.com',
-    role: 'partnerAdmin',
+    firstName: 'Gravens',
+    lastName: 'Lambert',
+    email: 'gravens@aeroworx.co',
+    role: 'admin',
     partnerGroupId: 'pg1',
     isActive: true,
     lastLogin: '2024-01-14T15:45:00Z',
     createdAt: '2024-01-05T00:00:00Z',
+    profilePhoto:
+      'https://aeroworx-1d7a9.kxcdn.com/wp-content/uploads/2022/08/gravans-lambert.jpg',
   },
   {
     id: 'admin3',
-    firstName: 'Mike',
-    lastName: 'Coordinator',
-    email: 'mike.coord@europeantravel.eu',
-    role: 'admin',
+    firstName: 'John',
+    lastName: 'Soap',
+    email: 'john.soap@aeroworx.co',
+    role: 'support',
     partnerGroupId: 'pg2',
     isActive: true,
     lastLogin: '2024-01-13T09:20:00Z',
@@ -67,9 +72,9 @@ const mockAdminUsers = [
   {
     id: 'admin4',
     firstName: 'Lisa',
-    lastName: 'Support',
-    email: 'lisa.support@apacoverage.com',
-    role: 'admin',
+    lastName: 'McTavish',
+    email: 'lisa.mctavish@aeroworx.co',
+    role: 'viewer',
     partnerGroupId: 'pg3',
     isActive: false,
     lastLogin: '2024-01-10T14:15:00Z',
@@ -218,7 +223,17 @@ export default function UsersPage() {
                 >
                   <div className="flex items-center space-x-4">
                     <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-full">
-                      <Users className="text-primary h-5 w-5" />
+                      {user.profilePhoto ? (
+                        <Image
+                          src={user.profilePhoto}
+                          alt={`${user.firstName} ${user.lastName}`}
+                          className="rounded-full object-cover"
+                          width={40}
+                          height={40}
+                        />
+                      ) : (
+                        <Users className="text-primary h-5 w-5" />
+                      )}
                     </div>
                     <div>
                       <h3 className="font-semibold">
@@ -242,6 +257,7 @@ export default function UsersPage() {
                             ? 'Partner Admin'
                             : 'Admin'}
                       </Badge>
+                      {/*
                       <div>
                         <Badge
                           variant={user.isActive ? 'default' : 'secondary'}
@@ -249,6 +265,7 @@ export default function UsersPage() {
                           {user.isActive ? 'Active' : 'Inactive'}
                         </Badge>
                       </div>
+                      */}
                     </div>
 
                     <DropdownMenu>

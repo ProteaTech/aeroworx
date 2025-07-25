@@ -62,6 +62,7 @@ export default function AddPartnerPage() {
       toast.success('Partner organization created successfully!')
       router.push('/admin/partners')
     } catch (error) {
+      console.error('Error creating partner organization:', error)
       toast.error('Failed to create partner organization')
     } finally {
       setLoading(false)
@@ -285,7 +286,7 @@ export default function AddPartnerPage() {
           </Card>
         </div>
 
-        <div className="flex justify-end space-x-4">
+        <div className="mt-4 flex justify-end space-x-4">
           <Link href="/admin/partners">
             <Button variant="outline" type="button">
               Cancel

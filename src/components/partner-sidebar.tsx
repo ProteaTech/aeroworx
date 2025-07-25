@@ -3,13 +3,14 @@
 import type * as React from 'react'
 import {
   BarChart3,
-  Building2,
+  Users,
   CreditCard,
   Home,
   Settings,
-  UserPlus,
+  Shield,
   LogOut,
-  PlusIcon,
+  CrownIcon,
+  PlusSquareIcon,
 } from 'lucide-react'
 
 import {
@@ -30,67 +31,67 @@ import { useAuth } from '@/contexts/auth-context'
 import { Button } from '@/components/ui/button'
 import { signOut } from '@/lib/firebase/auth'
 import { toast } from 'sonner'
+import { useParams, usePathname } from 'next/navigation'
+import mockData from '@/lib/mock-data.json'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
-import Image from 'next/image'
-import logo from '@/public/logo.png'
-import { usePathname } from 'next/navigation'
 
-// Navigation items based on user role
-const getNavigationItems = (userRole?: string) => {
-  const baseItems = [
+type Props = React.ComponentProps<typeof Sidebar> & {
+  partnerGroup: (typeof mockData)['partnerGroups'][number]
+}
+
+export function PartnerSidebar({ partnerGroup, ...props }: Props) {
+  const { user, userData } = useAuth()
+  const params = useParams()
+  const groupName = params.groupName as string
+  const pathname = usePathname()
+
+  // Find the partner group
+  // const partnerGroup = mockData.partnerGroups.find(
+  //   (group) =>
+  //     group.id === partnerGroupId ||
+  //     group.name.toLowerCase().replace(/\s+/g, '-') === groupName
+  // )
+
+  const navigationItems = [
     {
       title: 'Overview',
-      url: '/admin',
+      url: `/${groupName}`,
       icon: Home,
+      isActive: pathname === `/${groupName}` || pathname === `/${groupName}/`,
     },
     {
-      title: 'Partners Groups',
-      url: '/admin/partners',
-      icon: Building2,
+      title: 'Members',
+      url: `/${groupName}/members`,
+      icon: Users,
+      isActive: pathname.startsWith(`/${groupName}/members`),
     },
     {
       title: 'Analytics',
-      url: '/admin/analytics',
+      url: `/${groupName}/analytics`,
       icon: BarChart3,
-    },
-    {
-      title: 'Users',
-      url: '/admin/users',
-      icon: UserPlus,
-    },
-    {
-      title: 'Incidents',
-      url: '/admin/incidents',
-      icon: BarChart3,
+      isActive: pathname.startsWith(`/${groupName}/analytics`),
     },
     {
       title: 'Billing',
-      url: '/admin/billing',
+      url: `/${groupName}/billing`,
       icon: CreditCard,
+      isActive: pathname.startsWith(`/${groupName}/billing`),
+    },
+    {
+      title: 'Team',
+      url: `/${groupName}/team`,
+      icon: Shield,
+      isActive: pathname.startsWith(`/${groupName}/team`),
     },
     {
       title: 'Settings',
-      url: '/admin/settings',
+      url: `/${groupName}/settings`,
       icon: Settings,
+      isActive: pathname.startsWith(`/${groupName}/settings`),
     },
   ]
-
-  // Super admin gets additional items
-  if (userRole === 'superAdmin') {
-    return [...baseItems]
-  }
-
-  return baseItems
-}
-
-export function AdminSidebar({
-  ...props
-}: React.ComponentProps<typeof Sidebar>) {
-  const { user, userData } = useAuth()
-  const pathname = usePathname()
-
-  const navigationItems = getNavigationItems(userData?.role)
 
   const handleSignOut = async () => {
     try {
@@ -105,20 +106,17 @@ export function AdminSidebar({
   return (
     <Sidebar {...props}>
       <SidebarHeader className="border-sidebar-border h-18 border-b">
-        <div className="flex items-center gap-4 px-4 py-2">
+        <div className="flex items-center gap-2 px-4 py-2">
           <Image
-            src={logo}
+            src={partnerGroup?.logoUrl}
+            alt={`${partnerGroup?.name} Logo`}
+            className="size-8 rounded-lg object-cover"
             height={32}
             width={32}
-            alt="AeroWorx Logo"
-            className="size-8 object-cover"
           />
           <div className="flex flex-col">
             <span className="text-sidebar-foreground font-semibold">
-              AeroWorx
-            </span>
-            <span className="text-sidebar-foreground/70 text-xs">
-              Admin Dashboard
+              {partnerGroup?.name || 'Partner Dashboard'}
             </span>
           </div>
         </div>
@@ -131,29 +129,46 @@ export function AdminSidebar({
             <SidebarMenu>
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
+                  <SidebarMenuButton asChild isActive={item.isActive}>
                     <Link href={item.url}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
-                  {item.url === '/admin/partners' && (
+                  {item.url === `/${groupName}/members` && (
                     <SidebarMenuAction asChild>
-                      <Link href={'/admin/partners/add'}>
+                      <Link href={`/${groupName}/members/add`}>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <PlusIcon />
+                            <PlusSquareIcon className="h-4 w-4" />
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>Add new partner</p>
+                            <p>Add new member</p>
                           </TooltipContent>
                         </Tooltip>
-                        <span className="sr-only">Add Partner</span>
+                        <span className="sr-only">Add Member</span>
                       </Link>
                     </SidebarMenuAction>
                   )}
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Admin Access */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Admin Access</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/admin">
+                    <CrownIcon className="h-4 w-4" />
+                    <span>Admin Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -62,6 +62,7 @@ export default function SettingsPage() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       toast.success('Settings saved successfully!')
     } catch (error) {
+      console.error('Error saving settings:', error)
       toast.error('Failed to save settings')
     } finally {
       setLoading(false)

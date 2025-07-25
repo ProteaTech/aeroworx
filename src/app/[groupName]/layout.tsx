@@ -3,9 +3,7 @@
 import React from 'react'
 
 import { useAuth } from '@/contexts/auth-context'
-// import { useRouter } from 'next/navigation'
-// import { useEffect } from 'react'
-import { AdminSidebar } from '@/components/admin-sidebar'
+import { PartnerSidebar } from '@/components/partner-sidebar'
 import {
   SidebarProvider,
   SidebarInset,
@@ -21,34 +19,25 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { ThemeToggle } from '@/components/theme-toggle'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
+import mockData from '@/lib/mock-data.json'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
-export default function DashboardLayout({
+export default function PartnerGroupLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   const { loading } = useAuth()
+  const params = useParams()
   const pathname = usePathname()
-  // const router = useRouter()
-  //
-  // useEffect(() => {
-  //   if (!loading && !user) {
-  //     router.push('/login')
-  //   }
-  // }, [user, loading, router])
+  const groupName = params.groupName as string
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="border-primary h-32 w-32 animate-spin rounded-full border-b-2"></div>
-      </div>
-    )
-  }
-
-  // if (!user) {
-  //   return null
-  // }
+  // Find the partner group
+  const partnerGroup = mockData.partnerGroups.find(
+    (group) => group.name.toLowerCase().replace(/\s+/g, '-') === groupName
+  )
 
   // Generate breadcrumbs
   const pathSegments = pathname.split('/').filter(Boolean)
@@ -58,7 +47,7 @@ export default function DashboardLayout({
 
     let title = segment
     if (index === 0) {
-      title = segment
+      title = partnerGroup?.name || segment
     } else {
       title = segment.charAt(0).toUpperCase() + segment.slice(1)
     }
@@ -70,9 +59,30 @@ export default function DashboardLayout({
     }
   })
 
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="border-primary h-32 w-32 animate-spin rounded-full border-b-2"></div>
+      </div>
+    )
+  }
+
+  if (!partnerGroup) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold">Partner Group Not Found</h1>
+          <p className="text-muted-foreground">
+            The requested partner group does not exist.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <SidebarProvider>
-      <AdminSidebar variant="inset" />
+      <PartnerSidebar variant="inset" partnerGroup={partnerGroup} />
       <SidebarInset>
         <header className="flex h-18 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
@@ -95,20 +105,10 @@ export default function DashboardLayout({
               ))}
             </BreadcrumbList>
           </Breadcrumb>
-          {/** 
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/admin">Dashboard</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Overview</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          **/}
-          <span className="ml-auto">
+          <span className="ml-auto flex space-x-2">
+            <Button asChild variant={'outline'}>
+              <Link href={'/admin'}>Admin</Link>
+            </Button>
             <ThemeToggle />
           </span>
         </header>

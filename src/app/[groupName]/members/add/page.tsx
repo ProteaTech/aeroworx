@@ -4,6 +4,7 @@ import type React from 'react'
 import { useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { format } from 'date-fns'
 import {
   Card,
   CardContent,
@@ -21,8 +22,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { ArrowLeft, Save, Upload } from 'lucide-react'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { Calendar } from '@/components/ui/calendar'
+import { ArrowLeft, Save, Upload, CalendarIcon } from 'lucide-react'
 import { toast } from 'sonner'
+import { cn } from '@/lib/utils'
 import mockData from '@/lib/mock-data.json'
 
 export default function AddMemberPage() {
@@ -38,12 +46,12 @@ export default function AddMemberPage() {
 
   const [formData, setFormData] = useState({
     name: '',
-    dateOfBirth: '',
+    dateOfBirth: undefined as Date | undefined,
     nationality: '',
     countryOfResidence: '',
     destination: '',
-    startDate: '',
-    endDate: '',
+    startDate: undefined as Date | undefined,
+    endDate: undefined as Date | undefined,
     coverageType: 'Base Plan' as 'Base Plan' | 'Silver Plan' | 'Gold Plan',
   })
 
@@ -52,24 +60,6 @@ export default function AddMemberPage() {
       ...prev,
       [field]: value,
     }))
-
-    // Calculate days and cost when dates change
-    if (field === 'startDate' || field === 'endDate') {
-      const updatedData = { ...formData, [field]: value }
-      if (updatedData.startDate && updatedData.endDate) {
-        const start = new Date(updatedData.startDate)
-        const end = new Date(updatedData.endDate)
-        const days = Math.ceil(
-          (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
-        )
-
-        if (days > 0) {
-          const monthlyRate = getPlanRate(updatedData.coverageType)
-          const totalCost = Math.ceil((days / 30) * monthlyRate)
-          // You would update the calculated values here
-        }
-      }
-    }
   }
 
   const getPlanRate = (plan: string) => {
@@ -86,27 +76,37 @@ export default function AddMemberPage() {
     }
   }
 
-  const calculateCost = () => {
+  const calculateMonthsOfCoverage = () => {
     if (!formData.startDate || !formData.endDate) return 0
+
     const start = new Date(formData.startDate)
     const end = new Date(formData.endDate)
-    const days = Math.ceil(
-      (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
-    )
 
-    if (days <= 0) return 0
+    // Calculate the number of months the coverage spans
+    const startMonth = start.getMonth()
+    const startYear = start.getFullYear()
+    const endMonth = end.getMonth()
+    const endYear = end.getFullYear()
 
+    // Calculate total months covered
+    const monthsSpanned =
+      (endYear - startYear) * 12 + (endMonth - startMonth) + 1
+
+    return monthsSpanned > 0 ? monthsSpanned : 0
+  }
+
+  const calculateCost = () => {
+    const monthsOfCoverage = calculateMonthsOfCoverage()
     const monthlyRate = getPlanRate(formData.coverageType)
-    return Math.ceil((days / 30) * monthlyRate)
+    return monthsOfCoverage * monthlyRate
   }
 
   const getDaysOfTravel = () => {
     if (!formData.startDate || !formData.endDate) return 0
     const start = new Date(formData.startDate)
     const end = new Date(formData.endDate)
-    const days = Math.ceil(
-      (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
-    )
+    const days =
+      Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1
     return days > 0 ? days : 0
   }
 
@@ -171,16 +171,39 @@ export default function AddMemberPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="dateOfBirth">Date of Birth</Label>
-                <Input
-                  id="dateOfBirth"
-                  type="date"
-                  value={formData.dateOfBirth}
-                  onChange={(e) =>
-                    handleInputChange('dateOfBirth', e.target.value)
-                  }
-                  required
-                />
+                <Label>Date of Birth</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        'w-full cursor-pointer justify-start text-left font-normal',
+                        !formData.dateOfBirth && 'text-muted-foreground'
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {formData.dateOfBirth ? (
+                        format(formData.dateOfBirth, 'PPP')
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={formData.dateOfBirth}
+                      onSelect={(date) =>
+                        handleInputChange('dateOfBirth', date)
+                      }
+                      disabled={(date) =>
+                        date > new Date() || date < new Date('1900-01-01')
+                      }
+                      captionLayout="dropdown"
+                      autoFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <div className="space-y-2">
@@ -235,28 +258,92 @@ export default function AddMemberPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="startDate">Start Date</Label>
-                  <Input
-                    id="startDate"
-                    type="date"
-                    value={formData.startDate}
-                    onChange={(e) =>
-                      handleInputChange('startDate', e.target.value)
-                    }
-                    required
-                  />
+                  <Label>Start Date</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          'w-full justify-start text-left font-normal',
+                          !formData.startDate && 'text-muted-foreground'
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {formData.startDate ? (
+                          <>
+                            <span className="hidden md:block">
+                              {format(formData.startDate, 'PPP')}
+                            </span>
+                            <span className="md:hidden">
+                              {format(formData.startDate, 'dd MMM yyyy')}
+                            </span>
+                          </>
+                        ) : (
+                          <span>Pick start date</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        captionLayout="dropdown"
+                        selected={formData.startDate}
+                        onSelect={(date) =>
+                          handleInputChange('startDate', date)
+                        }
+                        disabled={(date) => date < new Date()}
+                        autoFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="endDate">End Date</Label>
-                  <Input
-                    id="endDate"
-                    type="date"
-                    value={formData.endDate}
-                    onChange={(e) =>
-                      handleInputChange('endDate', e.target.value)
-                    }
-                    required
-                  />
+                  <Label>End Date</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          'w-full justify-start text-left font-normal',
+                          !formData.endDate && 'text-muted-foreground'
+                        )}
+                      >
+                        <CalendarIcon className="size-4 md:mr-2" />
+                        {formData.endDate ? (
+                          <>
+                            <span className="hidden md:block">
+                              {format(formData.endDate, 'PPP')}
+                            </span>
+                            <span className="md:hidden">
+                              {format(formData.endDate, 'dd MMM yyyy')}
+                            </span>
+                          </>
+                        ) : (
+                          <span>Pick end date</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="end">
+                      <Calendar
+                        mode="single"
+                        captionLayout="dropdown"
+                        selected={formData.endDate}
+                        onSelect={(date) => handleInputChange('endDate', date)}
+                        disabled={(date) => {
+                          if (date < new Date()) {
+                            return true
+                          }
+
+                          if (formData?.startDate) {
+                            return date < formData?.startDate
+                          }
+                          return false
+                        }}
+                        autoFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
               </div>
 
@@ -294,6 +381,10 @@ export default function AddMemberPage() {
                     <div className="flex justify-between">
                       <span>Days of travel:</span>
                       <span>{getDaysOfTravel()} days</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Months of coverage:</span>
+                      <span>{calculateMonthsOfCoverage()} months</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Monthly rate:</span>

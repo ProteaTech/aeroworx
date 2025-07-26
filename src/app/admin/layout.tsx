@@ -79,7 +79,7 @@ export default function DashboardLayout({
           <Separator orientation="vertical" className="mr-2 h-4" />
           <Breadcrumb>
             <BreadcrumbList>
-              {breadcrumbs.map((breadcrumb, index) => (
+              {breadcrumbs.map((breadcrumb) => (
                 <React.Fragment key={breadcrumb.href}>
                   <BreadcrumbItem>
                     {breadcrumb.isLast ? (

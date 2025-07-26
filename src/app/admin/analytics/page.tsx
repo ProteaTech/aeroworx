@@ -41,7 +41,7 @@ export default function AnalyticsPage() {
     if (!parentRef.current) return
 
     const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         setParentWidth(entry.contentRect.width)
       }
     })
@@ -56,9 +56,9 @@ export default function AnalyticsPage() {
   // Calculate additional metrics
   const avgRevenuePerMember = analytics.totalRevenue / analytics.totalMembers
   const memberGrowthRate = 12 // Mock growth rate
-  const topPerformingPlan = analytics.membersByPlan.reduce((prev, current) =>
-    prev.revenue > current.revenue ? prev : current
-  )
+  // const topPerformingPlan = analytics.membersByPlan.reduce((prev, current) =>
+  //   prev.revenue > current.revenue ? prev : current
+  // )
 
   // Prepare chart data based on selected metric
   const getChartData = () => {

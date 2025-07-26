@@ -9,6 +9,13 @@ import {
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   Users,
   DollarSign,
   TrendingUp,
@@ -16,12 +23,16 @@ import {
   Building2,
   Calendar,
 } from 'lucide-react'
+import { useState } from 'react'
 import mockData from '@/lib/mock-data.json'
+import MotionChart from '@/components/ui/motion-chart'
 
 export default function AnalyticsPage() {
   const analytics = mockData.analytics.global
   const partners = mockData.partnerGroups
   const members = mockData.members
+
+  const [selectedMetric, setSelectedMetric] = useState<string>('revenue')
 
   // Calculate additional metrics
   const avgRevenuePerMember = analytics.totalRevenue / analytics.totalMembers
@@ -29,6 +40,66 @@ export default function AnalyticsPage() {
   const topPerformingPlan = analytics.membersByPlan.reduce((prev, current) =>
     prev.revenue > current.revenue ? prev : current
   )
+
+  // Prepare chart data based on selected metric
+  const getChartData = () => {
+    switch (selectedMetric) {
+      case 'revenue':
+        return {
+          data: analytics.revenueByMonth.map((item) => ({
+            label: item.month,
+            value: item.revenue,
+          })),
+          title: 'Revenue Over Time',
+          valuePrefix: '$',
+          color: 'hsl(142, 76%, 36%)', // Green for revenue
+        }
+      case 'members':
+        return {
+          data: analytics.memberGrowth.map((item) => ({
+            label: item.month,
+            value: item.totalMembers,
+          })),
+          title: 'Member Growth Over Time',
+          valueSuffix: ' members',
+          color: 'hsl(221, 83%, 53%)', // Blue for members
+        }
+      case 'partners':
+        return {
+          data: [
+            { label: 'Jan', value: partners.length - 2 },
+            { label: 'Feb', value: partners.length - 1 },
+            { label: 'Mar', value: partners.length },
+            { label: 'Apr', value: partners.length + 2 },
+          ],
+          title: 'Partner Growth Over Time',
+          valueSuffix: ' partners',
+          color: 'hsl(262, 83%, 58%)', // Purple for partners
+        }
+      case 'newMembers':
+        return {
+          data: analytics.memberGrowth.map((item) => ({
+            label: item.month,
+            value: item.newMembers,
+          })),
+          title: 'New Member Acquisitions',
+          valueSuffix: ' new members',
+          color: 'hsl(25, 95%, 53%)', // Orange for new members
+        }
+      default:
+        return {
+          data: analytics.revenueByMonth.map((item) => ({
+            label: item.month,
+            value: item.revenue,
+          })),
+          title: 'Revenue Over Time',
+          valuePrefix: '$',
+          color: 'hsl(142, 76%, 36%)',
+        }
+    }
+  }
+
+  const chartConfig = getChartData()
 
   return (
     <div className="space-y-6">
@@ -106,6 +177,44 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Interactive Chart */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Performance Trends</CardTitle>
+              <CardDescription>
+                Interactive analytics with trend visualization
+              </CardDescription>
+            </div>
+            <Select value={selectedMetric} onValueChange={setSelectedMetric}>
+              <SelectTrigger className="w-48">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="revenue">Revenue Over Time</SelectItem>
+                <SelectItem value="members">Total Members</SelectItem>
+                <SelectItem value="newMembers">
+                  New Member Acquisitions
+                </SelectItem>
+                <SelectItem value="partners">Partner Growth</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <MotionChart
+            data={chartConfig.data}
+            title={chartConfig.title}
+            valuePrefix={chartConfig.valuePrefix}
+            valueSuffix={chartConfig.valueSuffix}
+            color={chartConfig.color}
+            width={800}
+            height={400}
+          />
+        </CardContent>
+      </Card>
 
       {/* Revenue and Member Growth */}
       <div className="grid gap-6 md:grid-cols-2">

@@ -1175,12 +1175,18 @@
       "revenueByMonth": [
         { "month": "Jan", "revenue": 25400, "members": 1016 },
         { "month": "Feb", "revenue": 27800, "members": 1112 },
-        { "month": "Mar", "revenue": 31175, "members": 1247 }
+        { "month": "Mar", "revenue": 31175, "members": 1247 },
+        { "month": "Apr", "revenue": 28950, "members": 1189 },
+        { "month": "May", "revenue": 30000, "members": 1247 },
+        { "month": "Jun", "revenue": 32000, "members": 1300 }
       ],
       "memberGrowth": [
         { "month": "Jan", "newMembers": 89, "totalMembers": 1016 },
         { "month": "Feb", "newMembers": 96, "totalMembers": 1112 },
-        { "month": "Mar", "newMembers": 135, "totalMembers": 1247 }
+        { "month": "Mar", "newMembers": 135, "totalMembers": 1247 },
+        { "month": "Apr", "newMembers": 73, "totalMembers": 1189 },
+        { "month": "May", "newMembers": 111, "totalMembers": 1300 },
+        { "month": "Jun", "newMembers": 123, "totalMembers": 1423 }
       ]
     }
   },

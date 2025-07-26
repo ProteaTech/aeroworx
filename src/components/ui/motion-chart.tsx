@@ -76,11 +76,11 @@ export default function MotionChart({
 
   return (
     <div
-      className={`bg-card rounded-lg border p-4 ${className}`}
+      className={`bg-card rounded-lg border-none p-2 md:border md:p-4 ${className}`}
       onPointerLeave={endHover}
     >
       {title && (
-        <h3 className="text-card-foreground mb-4 text-lg font-semibold">
+        <h3 className="text-card-foreground mb-4 text-center text-lg font-semibold">
           {title}
         </h3>
       )}

@@ -23,14 +23,33 @@ import {
   Building2,
   Calendar,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import mockData from '@/lib/mock-data.json'
 import MotionChart from '@/components/ui/motion-chart'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 export default function AnalyticsPage() {
   const analytics = mockData.analytics.global
   const partners = mockData.partnerGroups
   const members = mockData.members
+  const isMobile = useIsMobile()
+
+  const parentRef = useRef(null)
+  const [parentWidth, setParentWidth] = useState(0)
+
+  useEffect(() => {
+    if (!parentRef.current) return
+
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        setParentWidth(entry.contentRect.width)
+      }
+    })
+
+    observer.observe(parentRef.current)
+
+    return () => observer.disconnect() // Clean up the observer
+  }, []) // Empty dependency array means this runs once on mount
 
   const [selectedMetric, setSelectedMetric] = useState<string>('revenue')
 
@@ -195,22 +214,20 @@ export default function AnalyticsPage() {
               <SelectContent>
                 <SelectItem value="revenue">Revenue Over Time</SelectItem>
                 <SelectItem value="members">Total Members</SelectItem>
-                <SelectItem value="newMembers">
-                  New Member Acquisitions
-                </SelectItem>
+                <SelectItem value="newMembers">New Members</SelectItem>
                 <SelectItem value="partners">Partner Growth</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent ref={parentRef} className="px-0 md:px-4 lg:px-6">
           <MotionChart
             data={chartConfig.data}
             title={chartConfig.title}
             valuePrefix={chartConfig.valuePrefix}
             valueSuffix={chartConfig.valueSuffix}
             color={chartConfig.color}
-            width={800}
+            width={isMobile ? parentWidth : parentWidth * 0.95}
             height={400}
           />
         </CardContent>
